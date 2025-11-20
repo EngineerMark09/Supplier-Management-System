@@ -26,8 +26,6 @@ $(document).ready(function() {
             password: $('#password').val().trim()
         };
 
-        console.log('Sending data:', formData);
-
         $.ajax({
             url: 'api/login.php',
             type: 'POST',
@@ -41,7 +39,6 @@ $(document).ready(function() {
                 }, 1000);
             },
             error: function(xhr) {
-                console.log('Error:', xhr);
                 var msg = xhr.responseJSON ? xhr.responseJSON.message : 'Login failed. Please try again.';
                 showAlert('error', msg);
             }

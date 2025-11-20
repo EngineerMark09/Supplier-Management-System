@@ -20,21 +20,18 @@ if(
     $query = "INSERT INTO suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address, status=:status";
     $stmt = $db->prepare($query);
 
-    // Sanitize
     $company_name = htmlspecialchars(strip_tags($data->company_name));
     $contact_person = htmlspecialchars(strip_tags($data->contact_person));
     $email = htmlspecialchars(strip_tags($data->email));
     $phone = htmlspecialchars(strip_tags($data->phone));
     $address = htmlspecialchars(strip_tags($data->address));
     
-    // Validate and sanitize status
     $validStatuses = array('Active', 'Inactive', 'Suspended');
     $status = !empty($data->status) ? htmlspecialchars(strip_tags($data->status)) : 'Active';
     if (!in_array($status, $validStatuses)) {
         $status = 'Active';
     }
 
-    // Bind
     $stmt->bindParam(":company_name", $company_name);
     $stmt->bindParam(":contact_person", $contact_person);
     $stmt->bindParam(":email", $email);
@@ -47,10 +44,10 @@ if(
         echo json_encode(array("message" => "Supplier was created."));
     } else {
         http_response_code(503);
-        echo json_encode(array("message" => "Unable to create supplier.", "error" => $stmt->errorInfo()));
+        echo json_encode(array("message" => "Unable to create supplier."));
     }
 } else {
     http_response_code(400);
-    echo json_encode(array("message" => "Unable to create supplier. Data is incomplete.", "received" => $data));
+    echo json_encode(array("message" => "Unable to create supplier. Data is incomplete."));
 }
 ?>

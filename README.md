@@ -1,41 +1,70 @@
 # Supplier Management System
 
-## Setup Instructions
+A modern web-based supplier management system with CRUD operations, status tracking, and PDF reporting.
 
-1.  **Start XAMPP**:
-    *   Open XAMPP Control Panel.
-    *   Start **Apache** and **MySQL** services.
+## Requirements
 
-2.  **Auto-Provisioning** (NEW):
-    *   The database will be **automatically created** when you first access the application.
-    *   Sample data will also be inserted automatically.
-    *   No manual database setup required!
+- XAMPP (Apache + MySQL + PHP 7.4+)
+- Web browser (Chrome, Firefox, Edge)
 
-3.  **FPDF Library** (Required for PDF Reports):
-    *   Download FPDF from [http://www.fpdf.org/](http://www.fpdf.org/).
-    *   Extract the contents.
-    *   Copy `fpdf.php` and the `font` folder into `libs/fpdf/`.
+## Installation
 
-4.  **Run the Application**:
-    *   Open your browser and go to `http://localhost/mid-final/`.
-    *   The system will automatically set up the database on first load.
+1. **Start XAMPP**
+   - Open XAMPP Control Panel
+   - Start Apache and MySQL services
+
+2. **Setup FPDF Library**
+   - Download FPDF from [http://www.fpdf.org/](http://www.fpdf.org/)
+   - Extract and copy `fpdf.php` and `font` folder to `libs/fpdf/`
+
+3. **Access Application**
+   - Open browser: `http://localhost/mid-final/`
+   - Database auto-creates on first run
+   - Login: `admin` / `admin123`
 
 ## Features
 
-*   **Auto-Provisioning**: Database and tables are created automatically on first run.
-*   **CRUD Operations**: Create, Read, Update, and Delete suppliers.
-*   **Status Management**: Track supplier status (Active, Inactive, Suspended) with color-coded badges.
-*   **AJAX**: Seamless updates without page reloads.
-*   **Search**: Real-time filtering of suppliers.
-*   **PDF Report**: Generate a printable list of suppliers with status.
-*   **Responsive Design**: Works on desktop and mobile.
-*   **Sample Data**: Includes default admin user to get you started.
+- **CRUD Operations** - Create, Read, Update, Delete suppliers
+- **Status Tracking** - Active, Inactive, Suspended with color-coded badges
+- **Advanced Filtering** - Search and filter by status
+- **PDF Reports** - Generate printable supplier lists
+- **AJAX Interface** - Seamless updates without page reloads
+- **Responsive Design** - Works on desktop and mobile
+- **Auto-Provisioning** - Database and tables created automatically
 
-## Folder Structure
+## Tech Stack
 
-*   `api/`: PHP scripts for handling AJAX requests.
-*   `assets/`: CSS and JavaScript files.
-*   `config/`: Database connection and auto-provisioning configuration.
-*   `database/`: SQL schema script (optional - auto-provisioning handles this).
-*   `libs/`: External libraries (FPDF).
-*   `reports/`: PHP script for generating PDF reports.
+- **Backend**: PHP + MySQL with PDO
+- **Frontend**: jQuery + AJAX
+- **Styling**: Custom CSS with modern UI
+- **PDF**: FPDF Library
+- **Icons**: Font Awesome 6.0
+
+## Project Structure
+
+```
+mid-final/
+├── api/                  # Backend endpoints
+├── assets/              # CSS, JavaScript
+├── config/              # Database configuration
+├── database/            # SQL schema
+├── libs/fpdf/          # PDF library
+├── reports/            # PDF generation
+├── dashboard.php       # Main application
+├── login.php          # Authentication
+└── index.php          # Entry point
+```
+
+## Database Schema
+
+**suppliers** - company_name, contact_person, email, phone, address, status, created_at  
+**users** - username, password, full_name, created_at
+
+## Developer
+
+**Mark Angelo L. Mingala**  
+3A-WMAD
+
+## License
+
+Educational Project - 2025

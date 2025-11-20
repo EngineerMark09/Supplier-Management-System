@@ -115,7 +115,6 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Data will be loaded here via AJAX -->
                                 </tbody>
                             </table>
                         </div>
@@ -160,7 +159,6 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Data will be loaded here via AJAX -->
                                     </tbody>
                                 </table>
                             </div>

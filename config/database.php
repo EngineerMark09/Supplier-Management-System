@@ -8,8 +8,6 @@ class Database {
 
     public function getConnection() {
         $this->conn = null;
-        
-        // Auto-provision database on first connection
         $this->initializeDatabase();
         
         try {
@@ -24,17 +22,12 @@ class Database {
     
     private function initializeDatabase() {
         try {
-            // Connect without database selection
             $tempConn = new PDO("mysql:host=" . $this->host, $this->username, $this->password);
             $tempConn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            // Create database if not exists
             $tempConn->exec("CREATE DATABASE IF NOT EXISTS `" . $this->db_name . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-            
-            // Switch to the database
             $tempConn->exec("USE `" . $this->db_name . "`");
             
-            // Create table if not exists
             $createTableSQL = "
                 CREATE TABLE IF NOT EXISTS `suppliers` (
                     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -76,7 +69,6 @@ class Database {
             $tempConn = null;
             
         } catch(PDOException $e) {
-            // Silently fail if initialization has issues
             error_log("Database initialization error: " . $e->getMessage());
         }
     }

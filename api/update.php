@@ -13,14 +13,12 @@ if(!empty($data->id)){
     $query = "UPDATE suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address, status=:status WHERE id = :id";
     $stmt = $db->prepare($query);
 
-    // Sanitize
     $company_name = htmlspecialchars(strip_tags($data->company_name));
     $contact_person = htmlspecialchars(strip_tags($data->contact_person));
     $email = htmlspecialchars(strip_tags($data->email));
     $phone = htmlspecialchars(strip_tags($data->phone));
     $address = htmlspecialchars(strip_tags($data->address));
     
-    // Validate and sanitize status
     $validStatuses = array('Active', 'Inactive', 'Suspended');
     $status = !empty($data->status) ? htmlspecialchars(strip_tags($data->status)) : 'Active';
     if (!in_array($status, $validStatuses)) {
@@ -29,7 +27,6 @@ if(!empty($data->id)){
     
     $id = htmlspecialchars(strip_tags($data->id));
 
-    // Bind
     $stmt->bindParam(":company_name", $company_name);
     $stmt->bindParam(":contact_person", $contact_person);
     $stmt->bindParam(":email", $email);
