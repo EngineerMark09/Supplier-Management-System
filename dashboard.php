@@ -66,7 +66,16 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                             <i class="fa-solid fa-check-circle"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>Active Status</h3>
+                            <h3>Active Suppliers</h3>
+                            <p id="active-suppliers">0</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon bg-green">
+                            <i class="fa-solid fa-plug"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>System Status</h3>
                             <p id="system-status">Checking...</p>
                         </div>
                     </div>
@@ -77,6 +86,12 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                     <div class="card-header">
                         <h2>Supplier Management</h2>
                         <div class="card-actions">
+                            <select id="status-filter" class="status-filter">
+                                <option value="">All Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Suspended">Suspended</option>
+                            </select>
                             <div class="search-box">
                                 <i class="fa-solid fa-search"></i>
                                 <input type="text" id="search-input" placeholder="Search suppliers...">
@@ -95,6 +110,7 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                                         <th>Contact Person</th>
                                         <th>Email</th>
                                         <th>Phone</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -114,6 +130,12 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                         <div class="card-header">
                             <h2><i class="fa-solid fa-users"></i> Supplier Directory</h2>
                             <div class="card-actions">
+                                <select id="status-filter-suppliers" class="status-filter">
+                                    <option value="">All Status</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Suspended">Suspended</option>
+                                </select>
                                 <div class="search-box">
                                     <i class="fa-solid fa-search"></i>
                                     <input type="text" id="search-input-suppliers" placeholder="Search suppliers...">
@@ -133,6 +155,7 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Address</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -272,6 +295,15 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                     <div class="form-group">
                         <label for="address">Address</label>
                         <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
                     </div>
 
                     <div class="form-actions">

@@ -23,7 +23,8 @@ if($num > 0) {
         "contact_person" => $contact_person,
         "email" => $email,
         "phone" => $phone,
-        "address" => $address
+        "address" => $address,
+        "status" => isset($status) ? $status : 'Active'
     );
     http_response_code(200);
     echo json_encode($supplier_item);

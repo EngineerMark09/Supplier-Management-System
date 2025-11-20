@@ -10,7 +10,7 @@ $db = $database->getConnection();
 $data = json_decode(file_get_contents("php://input"));
 
 if(!empty($data->id)){
-    $query = "UPDATE suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address WHERE id = :id";
+    $query = "UPDATE suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address, status=:status WHERE id = :id";
     $stmt = $db->prepare($query);
 
     // Sanitize
@@ -19,6 +19,14 @@ if(!empty($data->id)){
     $email = htmlspecialchars(strip_tags($data->email));
     $phone = htmlspecialchars(strip_tags($data->phone));
     $address = htmlspecialchars(strip_tags($data->address));
+    
+    // Validate and sanitize status
+    $validStatuses = array('Active', 'Inactive', 'Suspended');
+    $status = !empty($data->status) ? htmlspecialchars(strip_tags($data->status)) : 'Active';
+    if (!in_array($status, $validStatuses)) {
+        $status = 'Active';
+    }
+    
     $id = htmlspecialchars(strip_tags($data->id));
 
     // Bind
@@ -27,6 +35,7 @@ if(!empty($data->id)){
     $stmt->bindParam(":email", $email);
     $stmt->bindParam(":phone", $phone);
     $stmt->bindParam(":address", $address);
+    $stmt->bindParam(":status", $status);
     $stmt->bindParam(":id", $id);
 
     if($stmt->execute()){

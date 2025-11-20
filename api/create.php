@@ -17,7 +17,7 @@ if(
     !empty($data->phone) &&
     !empty($data->address)
 ){
-    $query = "INSERT INTO suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address";
+    $query = "INSERT INTO suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address, status=:status";
     $stmt = $db->prepare($query);
 
     // Sanitize
@@ -26,6 +26,13 @@ if(
     $email = htmlspecialchars(strip_tags($data->email));
     $phone = htmlspecialchars(strip_tags($data->phone));
     $address = htmlspecialchars(strip_tags($data->address));
+    
+    // Validate and sanitize status
+    $validStatuses = array('Active', 'Inactive', 'Suspended');
+    $status = !empty($data->status) ? htmlspecialchars(strip_tags($data->status)) : 'Active';
+    if (!in_array($status, $validStatuses)) {
+        $status = 'Active';
+    }
 
     // Bind
     $stmt->bindParam(":company_name", $company_name);
@@ -33,6 +40,7 @@ if(
     $stmt->bindParam(":email", $email);
     $stmt->bindParam(":phone", $phone);
     $stmt->bindParam(":address", $address);
+    $stmt->bindParam(":status", $status);
 
     if($stmt->execute()){
         http_response_code(201);

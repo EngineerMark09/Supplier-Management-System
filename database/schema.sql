@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS suppliers (
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     address TEXT NOT NULL,
+    status ENUM('Active', 'Inactive', 'Suspended') DEFAULT 'Active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -24,11 +24,12 @@
 
 *   **Auto-Provisioning**: Database and tables are created automatically on first run.
 *   **CRUD Operations**: Create, Read, Update, and Delete suppliers.
+*   **Status Management**: Track supplier status (Active, Inactive, Suspended) with color-coded badges.
 *   **AJAX**: Seamless updates without page reloads.
 *   **Search**: Real-time filtering of suppliers.
-*   **PDF Report**: Generate a printable list of suppliers.
+*   **PDF Report**: Generate a printable list of suppliers with status.
 *   **Responsive Design**: Works on desktop and mobile.
-*   **Sample Data**: Includes 3 sample suppliers to get you started.
+*   **Sample Data**: Includes default admin user to get you started.
 
 ## Folder Structure
 

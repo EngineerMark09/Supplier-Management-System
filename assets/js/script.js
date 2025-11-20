@@ -70,7 +70,8 @@ $(document).ready(function() {
             contact_person: $('#contact_person').val(),
             email: $('#email').val(),
             phone: $('#phone').val(),
-            address: $('#address').val()
+            address: $('#address').val(),
+            status: $('#status').val()
         };
 
         $.ajax({
@@ -107,6 +108,7 @@ $(document).ready(function() {
                 $('#email').val(data.email);
                 $('#phone').val(data.phone);
                 $('#address').val(data.address);
+                $('#status').val(data.status || 'Active');
                 
                 $('#modal-title').text('Edit Supplier');
                 $('#supplier-modal').css('display', 'flex');
@@ -142,25 +144,50 @@ $(document).ready(function() {
 
     // Search Functionality
     $('#search-input').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
-        $("#suppliers-table tbody tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
+        filterTable('#suppliers-table');
     });
 
     // Search Functionality (Suppliers Tab)
     $('#search-input-suppliers').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
-        $("#suppliers-table-tab tbody tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
+        filterTable('#suppliers-table-tab');
+    });
+
+    // Status Filter (Dashboard)
+    $('#status-filter').on('change', function() {
+        filterTable('#suppliers-table');
+    });
+
+    // Status Filter (Suppliers Tab)
+    $('#status-filter-suppliers').on('change', function() {
+        filterTable('#suppliers-table-tab');
     });
 
     // Functions
+    function filterTable(tableId) {
+        var searchValue = tableId === '#suppliers-table' ? 
+            $('#search-input').val().toLowerCase() : 
+            $('#search-input-suppliers').val().toLowerCase();
+        var statusValue = tableId === '#suppliers-table' ? 
+            $('#status-filter').val() : 
+            $('#status-filter-suppliers').val();
+
+        $(tableId + " tbody tr").filter(function() {
+            var rowText = $(this).text().toLowerCase();
+            var matchesSearch = rowText.indexOf(searchValue) > -1;
+            var statusCell = $(this).find('td:nth-child(6)').text(); // Status is 6th column in dashboard, 7th in suppliers
+            if (tableId === '#suppliers-table-tab') {
+                statusCell = $(this).find('td:nth-child(7)').text();
+            }
+            var matchesStatus = statusValue === '' || statusCell === statusValue;
+            $(this).toggle(matchesSearch && matchesStatus);
+        });
+    }
+
     function openSupplierModal() {
         $('#modal-title').text('Add Supplier');
         $('#supplier-form')[0].reset();
         $('#supplier_id').val('');
+        $('#status').val('Active'); // Set default status to Active
         $('#supplier-modal').css('display', 'flex');
     }
 
@@ -174,13 +201,22 @@ $(document).ready(function() {
                 var rows = '';
                 if(data.length > 0) {
                     $('#total-suppliers').text(data.length);
+                    
+                    // Count active suppliers
+                    var activeCount = data.filter(function(item) {
+                        return (item.status || 'Active') === 'Active';
+                    }).length;
+                    $('#active-suppliers').text(activeCount);
+                    
                     $.each(data, function(i, item) {
+                        var statusBadge = getStatusBadge(item.status || 'Active');
                         rows += `<tr>
                             <td>${item.id}</td>
                             <td>${item.company_name}</td>
                             <td>${item.contact_person}</td>
                             <td>${item.email}</td>
                             <td>${item.phone}</td>
+                            <td>${statusBadge}</td>
                             <td>
                                 <button class="btn-sm btn-edit" data-id="${item.id}"><i class="fa-solid fa-pen"></i></button>
                                 <button class="btn-sm btn-delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
@@ -189,13 +225,14 @@ $(document).ready(function() {
                     });
                 } else {
                     $('#total-suppliers').text('0');
-                    rows = '<tr><td colspan="6" style="text-align:center">No suppliers found.</td></tr>';
+                    $('#active-suppliers').text('0');
+                    rows = '<tr><td colspan="7" style="text-align:center">No suppliers found.</td></tr>';
                 }
                 $('#suppliers-table tbody').html(rows);
             },
             error: function() {
                 $('#system-status').text('Offline').css('color', 'var(--danger-color)');
-                $('#suppliers-table tbody').html('<tr><td colspan="6" style="text-align:center; color:red;">Error loading data. Check database connection.</td></tr>');
+                $('#suppliers-table tbody').html('<tr><td colspan="7" style="text-align:center; color:red;">Error loading data. Check database connection.</td></tr>');
             }
         });
     }
@@ -209,6 +246,7 @@ $(document).ready(function() {
                 var rows = '';
                 if(data.length > 0) {
                     $.each(data, function(i, item) {
+                        var statusBadge = getStatusBadge(item.status || 'Active');
                         rows += `<tr>
                             <td>${item.id}</td>
                             <td>${item.company_name}</td>
@@ -216,6 +254,7 @@ $(document).ready(function() {
                             <td>${item.email}</td>
                             <td>${item.phone}</td>
                             <td>${item.address}</td>
+                            <td>${statusBadge}</td>
                             <td>
                                 <button class="btn-sm btn-edit" data-id="${item.id}"><i class="fa-solid fa-pen"></i></button>
                                 <button class="btn-sm btn-delete" data-id="${item.id}"><i class="fa-solid fa-trash"></i></button>
@@ -223,12 +262,12 @@ $(document).ready(function() {
                         </tr>`;
                     });
                 } else {
-                    rows = '<tr><td colspan="7" style="text-align:center">No suppliers found.</td></tr>';
+                    rows = '<tr><td colspan="8" style="text-align:center">No suppliers found.</td></tr>';
                 }
                 $('#suppliers-table-tab tbody').html(rows);
             },
             error: function() {
-                $('#suppliers-table-tab tbody').html('<tr><td colspan="7" style="text-align:center; color:red;">Error loading data. Check database connection.</td></tr>');
+                $('#suppliers-table-tab tbody').html('<tr><td colspan="8" style="text-align:center; color:red;">Error loading data. Check database connection.</td></tr>');
             }
         });
     }
@@ -256,5 +295,15 @@ $(document).ready(function() {
         setTimeout(function() {
             alertBox.fadeOut();
         }, 3000);
+    }
+
+    function getStatusBadge(status) {
+        var badgeClass = 'badge-success';
+        if (status === 'Inactive') {
+            badgeClass = 'badge-secondary';
+        } else if (status === 'Suspended') {
+            badgeClass = 'badge-danger';
+        }
+        return `<span class="badge ${badgeClass}">${status}</span>`;
     }
 });

@@ -32,7 +32,7 @@ class PDF extends FPDF
         $this->SetTextColor(71, 85, 105);
         $this->SetDrawColor(226, 232, 240);
         
-        $w = array(15, 45, 40, 50, 40);
+        $w = array(12, 40, 35, 45, 30, 20);
         for($i = 0; $i < count($header); $i++) {
             $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C');
         }
@@ -44,10 +44,11 @@ class PDF extends FPDF
         foreach($data as $row)
         {
             $this->Cell($w[0], 6, $row['id'], 1, 0, 'C');
-            $this->Cell($w[1], 6, substr($row['company_name'], 0, 25), 1, 0, 'L');
-            $this->Cell($w[2], 6, substr($row['contact_person'], 0, 22), 1, 0, 'L');
-            $this->Cell($w[3], 6, substr($row['email'], 0, 28), 1, 0, 'L');
-            $this->Cell($w[4], 6, $row['phone'], 1, 0, 'L');
+            $this->Cell($w[1], 6, substr($row['company_name'], 0, 22), 1, 0, 'L');
+            $this->Cell($w[2], 6, substr($row['contact_person'], 0, 20), 1, 0, 'L');
+            $this->Cell($w[3], 6, substr($row['email'], 0, 25), 1, 0, 'L');
+            $this->Cell($w[4], 6, substr($row['phone'], 0, 18), 1, 0, 'L');
+            $this->Cell($w[5], 6, $row['status'], 1, 0, 'C');
             $this->Ln();
         }
     }
@@ -70,7 +71,7 @@ $pdf->SetTextColor(100, 116, 139);
 $pdf->Cell(0, 8, 'Total Suppliers: ' . count($data), 0, 1, 'L');
 $pdf->Ln(2);
 
-$header = array('ID', 'Company Name', 'Contact Person', 'Email', 'Phone');
+$header = array('ID', 'Company Name', 'Contact Person', 'Email', 'Phone', 'Status');
 $pdf->SimpleTable($header, $data);
 
 $pdf->Output('I', 'suppliers_report.pdf');

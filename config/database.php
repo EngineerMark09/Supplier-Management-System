@@ -43,6 +43,7 @@ class Database {
                     `email` VARCHAR(100) NOT NULL,
                     `phone` VARCHAR(20) NOT NULL,
                     `address` TEXT NOT NULL,
+                    `status` ENUM('Active', 'Inactive', 'Suspended') DEFAULT 'Active',
                     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
             ";
