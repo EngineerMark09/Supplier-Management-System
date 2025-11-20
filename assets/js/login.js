@@ -1,3 +1,4 @@
+// Login page script
 $(document).ready(function() {
     // Toggle password visibility
     $(document).on('click', '#toggle-password', function(e) {
@@ -18,6 +19,7 @@ $(document).ready(function() {
         }
     });
 
+    // Handle login
     $('#login-form').submit(function(e) {
         e.preventDefault();
         

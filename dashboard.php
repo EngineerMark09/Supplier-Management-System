@@ -1,4 +1,5 @@
 <?php
+// Check login session
 session_start();
 if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: login.php");
@@ -50,7 +51,7 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                 
                 <!-- Dashboard Tab -->
                 <div id="tab-dashboard" class="tab-content active">
-                <!-- Stats Row -->
+                <!-- Stats cards -->
                 <div class="stats-grid">
                     <div class="card stat-card">
                         <div class="stat-icon bg-blue">
@@ -259,6 +260,7 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
     </div>
 
     <!-- Modal -->
+    <!-- Add/Edit modal -->
     <div id="supplier-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">

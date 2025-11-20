@@ -1,4 +1,5 @@
 <?php
+// Update existing supplier
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 
@@ -9,10 +10,12 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
+// Check ID before update
 if(!empty($data->id)){
     $query = "UPDATE suppliers SET company_name=:company_name, contact_person=:contact_person, email=:email, phone=:phone, address=:address, status=:status WHERE id = :id";
     $stmt = $db->prepare($query);
 
+    // Sanitize inputs
     $company_name = htmlspecialchars(strip_tags($data->company_name));
     $contact_person = htmlspecialchars(strip_tags($data->contact_person));
     $email = htmlspecialchars(strip_tags($data->email));

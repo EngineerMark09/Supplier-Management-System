@@ -1,3 +1,4 @@
+// Dashboard main script
 $(document).ready(function() {
     
     // Load suppliers on page load
@@ -62,6 +63,7 @@ $(document).ready(function() {
     $('#supplier-form').submit(function(e) {
         e.preventDefault();
         
+        // Check if editing or creating
         var id = $('#supplier_id').val();
         var url = id ? 'api/update.php' : 'api/create.php';
         var formData = {
@@ -163,6 +165,7 @@ $(document).ready(function() {
     });
 
     // Functions
+    // Filter by search and status
     function filterTable(tableId) {
         var searchValue = tableId === '#suppliers-table' ? 
             $('#search-input').val().toLowerCase() : 
@@ -191,6 +194,7 @@ $(document).ready(function() {
         $('#supplier-modal').css('display', 'flex');
     }
 
+    // Load dashboard data
     function loadSuppliers() {
         $.ajax({
             url: 'api/read.php',
@@ -297,6 +301,7 @@ $(document).ready(function() {
         }, 3000);
     }
 
+    // Get status badge color
     function getStatusBadge(status) {
         var badgeClass = 'badge-success';
         if (status === 'Inactive') {

@@ -1,4 +1,5 @@
 <?php
+// User login
 session_start();
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -32,6 +33,7 @@ if(!empty($username) && !empty($password)){
     if($num > 0){
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // Verify password
         if(password_verify($password, $row['password'])){
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];

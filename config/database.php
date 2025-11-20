@@ -1,4 +1,5 @@
 <?php
+// Database connection class
 class Database {
     private $host = "localhost";
     private $db_name = "supplier_db";
@@ -20,6 +21,7 @@ class Database {
         return $this->conn;
     }
     
+    // Auto-create database and tables
     private function initializeDatabase() {
         try {
             $tempConn = new PDO("mysql:host=" . $this->host, $this->username, $this->password);
@@ -58,6 +60,7 @@ class Database {
             $checkUsers = $tempConn->query("SELECT COUNT(*) as count FROM users");
             $userRow = $checkUsers->fetch(PDO::FETCH_ASSOC);
             
+            // Create default admin if needed
             if ($userRow['count'] == 0) {
                 $defaultPassword = password_hash('admin123', PASSWORD_DEFAULT);
                 $insertUser = "INSERT INTO users (username, password, full_name) VALUES ('admin', :password, 'Administrator')";

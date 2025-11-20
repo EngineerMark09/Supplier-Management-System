@@ -1,4 +1,5 @@
 <?php
+// Delete supplier
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 
@@ -9,6 +10,7 @@ $db = $database->getConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
+// Check ID before delete
 if(!empty($data->id)){
     $query = "DELETE FROM suppliers WHERE id = :id";
     $stmt = $db->prepare($query);

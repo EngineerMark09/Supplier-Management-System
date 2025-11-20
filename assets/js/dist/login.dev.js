@@ -1,5 +1,6 @@
 "use strict";
 
+// Login page script
 $(document).ready(function () {
   // Toggle password visibility
   $(document).on('click', '#toggle-password', function (e) {
@@ -17,7 +18,8 @@ $(document).ready(function () {
       passwordInput.attr('type', 'password');
       icon.removeClass('fa-eye').addClass('fa-eye-slash');
     }
-  });
+  }); // Handle login
+
   $('#login-form').submit(function (e) {
     e.preventDefault();
     var formData = {

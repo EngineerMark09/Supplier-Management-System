@@ -1,10 +1,12 @@
 <?php
+// Get all suppliers
 header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
+// Get all suppliers, newest first
 $query = "SELECT * FROM suppliers ORDER BY id DESC";
 $stmt = $db->prepare($query);
 $stmt->execute();
@@ -12,6 +14,7 @@ $stmt->execute();
 $num = $stmt->rowCount();
 $suppliers_arr = array();
 
+// Build response array
 if($num > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);

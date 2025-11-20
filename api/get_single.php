@@ -1,4 +1,5 @@
 <?php
+// Get single supplier by ID
 header("Content-Type: application/json; charset=UTF-8");
 include_once '../config/database.php';
 
@@ -7,6 +8,7 @@ $db = $database->getConnection();
 
 $id = isset($_GET['id']) ? $_GET['id'] : die();
 
+// Fetch supplier
 $query = "SELECT * FROM suppliers WHERE id = ? LIMIT 0,1";
 $stmt = $db->prepare($query);
 $stmt->bindParam(1, $id);

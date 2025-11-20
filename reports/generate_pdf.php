@@ -1,9 +1,11 @@
 <?php
+// Generate supplier PDF report
 require('../libs/fpdf/fpdf.php');
 include_once '../config/database.php';
 
 class PDF extends FPDF
 {
+    // Report header
     function Header()
     {
         $this->SetFont('Arial', 'B', 16);
@@ -26,6 +28,7 @@ class PDF extends FPDF
         $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'R');
     }
     
+    // Build table
     function SimpleTable($header, $data)
     {
         $this->SetFont('Arial', 'B', 9);
