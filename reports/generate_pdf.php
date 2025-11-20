@@ -60,7 +60,7 @@ class PDF extends FPDF
 $database = new Database();
 $db = $database->getConnection();
 
-$query = "SELECT * FROM suppliers ORDER BY id DESC";
+$query = "SELECT * FROM suppliers ORDER BY id ASC";
 $stmt = $db->prepare($query);
 $stmt->execute();
 

@@ -6,8 +6,8 @@ include_once '../config/database.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// Get all suppliers, newest first
-$query = "SELECT * FROM suppliers ORDER BY id DESC";
+// Get all suppliers, oldest first (ascending ID)
+$query = "SELECT * FROM suppliers ORDER BY id ASC";
 $stmt = $db->prepare($query);
 $stmt->execute();
 
@@ -24,7 +24,8 @@ if($num > 0) {
             "contact_person" => $contact_person,
             "email" => $email,
             "phone" => $phone,
-            "address" => $address
+            "address" => $address,
+            "status" => isset($status) ? $status : 'Active'
         );
         array_push($suppliers_arr, $supplier_item);
     }

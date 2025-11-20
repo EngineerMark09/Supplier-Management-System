@@ -71,15 +71,6 @@ $user_name = isset($_SESSION['full_name']) ? $_SESSION['full_name'] : 'Admin';
                             <p id="active-suppliers">0</p>
                         </div>
                     </div>
-                    <div class="card stat-card">
-                        <div class="stat-icon bg-green">
-                            <i class="fa-solid fa-plug"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>System Status</h3>
-                            <p id="system-status">Checking...</p>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Main Card -->

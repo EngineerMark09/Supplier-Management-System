@@ -151,14 +151,23 @@ $(document).ready(function () {
     var searchValue = tableId === '#suppliers-table' ? $('#search-input').val().toLowerCase() : $('#search-input-suppliers').val().toLowerCase();
     var statusValue = tableId === '#suppliers-table' ? $('#status-filter').val() : $('#status-filter-suppliers').val();
     $(tableId + " tbody tr").filter(function () {
-      var rowText = $(this).text().toLowerCase();
-      var matchesSearch = rowText.indexOf(searchValue) > -1;
-      var statusCell = $(this).find('td:nth-child(6)').text(); // Status is 6th column in dashboard, 7th in suppliers
+      // Get individual cell values for better search
+      var company = $(this).find('td:nth-child(2)').text().toLowerCase();
+      var contact = $(this).find('td:nth-child(3)').text().toLowerCase();
+      var email = $(this).find('td:nth-child(4)').text().toLowerCase();
+      var phone = $(this).find('td:nth-child(5)').text().toLowerCase();
+      var statusCell,
+          address = '';
 
       if (tableId === '#suppliers-table-tab') {
+        address = $(this).find('td:nth-child(6)').text().toLowerCase();
         statusCell = $(this).find('td:nth-child(7)').text();
-      }
+      } else {
+        statusCell = $(this).find('td:nth-child(6)').text();
+      } // Check if search matches any field
 
+
+      var matchesSearch = searchValue === '' || company.indexOf(searchValue) > -1 || contact.indexOf(searchValue) > -1 || email.indexOf(searchValue) > -1 || phone.indexOf(searchValue) > -1 || address.indexOf(searchValue) > -1 || statusCell.toLowerCase().indexOf(searchValue) > -1;
       var matchesStatus = statusValue === '' || statusCell === statusValue;
       $(this).toggle(matchesSearch && matchesStatus);
     });
@@ -180,7 +189,6 @@ $(document).ready(function () {
       type: 'GET',
       dataType: 'json',
       success: function success(data) {
-        $('#system-status').text('Online').css('color', 'var(--success-color)');
         var rows = '';
 
         if (data.length > 0) {
@@ -203,7 +211,6 @@ $(document).ready(function () {
         $('#suppliers-table tbody').html(rows);
       },
       error: function error() {
-        $('#system-status').text('Offline').css('color', 'var(--danger-color)');
         $('#suppliers-table tbody').html('<tr><td colspan="7" style="text-align:center; color:red;">Error loading data. Check database connection.</td></tr>');
       }
     });
